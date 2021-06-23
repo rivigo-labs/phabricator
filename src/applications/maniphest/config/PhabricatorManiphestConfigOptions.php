@@ -247,6 +247,44 @@ EOTEXT
     $json = new PhutilJSON();
     $status_example = $json->encodeFormatted($status_example);
 
+    $category_type = 'maniphest.categories';
+    $category_defaults = array();
+
+    $category_description = $this->deformat(pht(<<<EOTEXT
+Allows you to edit, add, or remove the task categories available in Maniphest,
+like "BF/CN Creation", "Zoom Ops/Audit Log". The configuration should contain a map
+of category constants to category specifications (see below for examples).
+
+The keys you can provide in a specification are:
+
+  - `name` //Required string.// Name of the category, like "BF/CN Creation".
+  - `silly` //Optional bool.// Marks this status as silly, and thus wholly
+    inappropriate for use by serious businesses.
+  - `disabled` //Optional bool.// Marks this status as no longer in use so
+    tasks can not be created or edited to have this status. Existing tasks with
+    this status will not be affected, but you can batch edit them or let them
+    die out on their own.
+
+Categories will appear in the UI in the order specified. Note that any category
+marked `silly` does not appear if Phabricator
+is configured with `phabricator.serious-business` set to true.
+
+EOTEXT
+    ));
+
+    $category_example = array(
+      'bf.cn.creation' => array(
+        'name' => pht('BF/CN Creation'),
+      ),
+      'bf.cn.deletion' => array(
+        'name' => pht('BF/CN Deletion'),
+        'disabled' => true,
+      )
+    );
+
+    $json = new PhutilJSON();
+    $category_example = $json->encodeFormatted($category_example);
+
     // This is intentionally blank for now, until we can move more Maniphest
     // logic to custom fields.
     $default_fields = array();
@@ -506,6 +544,10 @@ EOTEXT
         ->setSummary(pht('Configure Maniphest task statuses.'))
         ->setDescription($status_description)
         ->addExample($status_example, pht('Minimal Valid Config')),
+      $this->newOption('maniphest.categories', $category_type, $category_defaults)
+        ->setSummary(pht('Configure Maniphest task categories.'))
+        ->setDescription($category_description)
+        ->addExample($category_example, pht('Minimal Valid Config')),
       $this->newOption('maniphest.default-priority', 'int', 90)
         ->setSummary(pht('Default task priority for create flows.'))
         ->setDescription(
