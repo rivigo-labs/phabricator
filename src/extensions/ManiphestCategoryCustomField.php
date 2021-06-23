@@ -3,7 +3,11 @@
 final class ManiphestCategoryCustomField extends ManiphestCustomField {
 
   public function getFieldKey() {
-    return 'rivigo:category';
+    return 'rivigo:custom-category';
+  }
+
+  public function getFieldName() {
+    return 'Rivigo Category';
   }
 
   public function shouldAppearInPropertyView() {
