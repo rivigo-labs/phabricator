@@ -100,6 +100,7 @@ final class ManiphestTaskCategory extends ManiphestConstants {
         $value,
         array(
           'name' => 'string',
+          'subcategories' => 'optional list<string>',
           'silly' => 'optional bool',
           'disabled' => 'optional bool',
         ));

@@ -44,6 +44,7 @@ abstract class ManiphestConduitAPIMethod extends ConduitAPIMethod {
       $fields += array(
         'status'    => 'optional string',
         'comments'  => 'optional string',
+        'category'  => 'optional string',
       );
     }
 
@@ -89,6 +90,15 @@ abstract class ManiphestConduitAPIMethod extends ConduitAPIMethod {
             ->setErrorDescription(pht('Status set to invalid value.'));
         }
         $changes[ManiphestTaskStatusTransaction::TRANSACTIONTYPE] = $status;
+      }
+
+      $category = $request->getValue('category');
+      if ($category !== null) {
+        $valid_categories = ManiphestTaskCategory::getTaskCategoryMap();
+        if (!isset($valid_categories[$category])) {
+          throw id(new ConduitException('ERR-INVALID-PARAMETER'))
+            ->setErrorDescription(pht('Category set to invalid value.'));
+        }
       }
     }
 

@@ -252,12 +252,13 @@ EOTEXT
 
     $category_description = $this->deformat(pht(<<<EOTEXT
 Allows you to edit, add, or remove the task categories available in Maniphest,
-like "BF/CN Creation", "Zoom Ops/Audit Log". The configuration should contain a map
+like "BF", "Zoom Ops". The configuration should contain a map
 of category constants to category specifications (see below for examples).
 
 The keys you can provide in a specification are:
 
-  - `name` //Required string.// Name of the category, like "BF/CN Creation".
+  - `name` //Required string.// Name of the category, like "BF".
+  - `subcategories` //List of strings.// Subcategories list, like ["CN Creation", "CN Edit"].
   - `silly` //Optional bool.// Marks this status as silly, and thus wholly
     inappropriate for use by serious businesses.
   - `disabled` //Optional bool.// Marks this status as no longer in use so
@@ -274,12 +275,9 @@ EOTEXT
 
     $category_example = array(
       'bf.cn.creation' => array(
-        'name' => pht('BF/CN Creation'),
+        'name' => pht('BF'),
+        'subcategories' => array(pht('CN Creation'), pht('CN Deletion')),
       ),
-      'bf.cn.deletion' => array(
-        'name' => pht('BF/CN Deletion'),
-        'disabled' => true,
-      )
     );
 
     $json = new PhutilJSON();
