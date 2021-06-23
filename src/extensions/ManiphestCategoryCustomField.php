@@ -9,10 +9,10 @@ final class ManiphestCategoryCustomField extends ManiphestCustomField {
   public function shouldAppearInPropertyView() {
     return true;
   }
-
-  public function shouldAppearInEditEngine() {
-    return true;
-  }
+//
+//  public function shouldAppearInEditEngine() {
+//    return true;
+//  }
 
   public function renderPropertyViewLabel() {
     return pht('Category');
